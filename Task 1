@@ -1,0 +1,51 @@
+var intervalId = null;
+var currentState = 'red';
+
+function redClicked() {
+    goRed();
+    clearInterval(intervalId);
+
+    intervalId = setInterval(function() {
+        greenClicked();
+    }, 20000);
+}
+
+function greenClicked() {
+    clearInterval(intervalId);
+    goGreen();
+    intervalId = setInterval(function() {
+        yellowClicked();
+    }, 15000);
+}
+
+function yellowClicked() {
+    goYellow();
+    clearInterval(intervalId);
+
+    intervalId = setInterval(function() {
+        redClicked();
+    }, 5000);
+}
+
+redClicked();
+
+function goRed() {
+    document.getElementById('red-button').className = 'red';
+    document.getElementById('green-button').className = 'black';
+    document.getElementById('yellow-button').className = 'black';
+    currentState = 'red';
+}
+
+function goGreen() {
+    document.getElementById('red-button').className = 'black';
+    document.getElementById('green-button').className = 'green';
+    document.getElementById('yellow-button').className = 'black';
+    currentState = 'green';
+}
+
+function goYellow() {
+    document.getElementById('red-button').className = 'black';
+    document.getElementById('green-button').className = 'black';
+    document.getElementById('yellow-button').className = 'yellow';
+    currentState = 'yellow';
+}
