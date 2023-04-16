@@ -1,95 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Traffic Light Demo</title>
-	<style>
-		button {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			margin-right: 10px;
-		}
+var intervalId = null;
+var currentState = 'red';
 
-		.red {
-			background-color: red;
-		}
+function redClicked() {
+    goRed();
+    clearInterval(intervalId);
 
-		.green {
-			background-color: green;
-		}
+    intervalId = setInterval(function() {
+        greenClicked();
+    }, 20000);
+}
 
-		.yellow {
-			background-color: yellow;
-		}
+function greenClicked() {
+    clearInterval(intervalId);
+    goGreen();
+    intervalId = setInterval(function() {
+        yellowClicked();
+    }, 15000);
+}
 
-		.black {
-			background-color: black;
-		}
-	</style>
-</head>
-<body>
-	<h1>Traffic Light Demo</h1>
-	<div>
-		<button id="red-button" class="red" onclick="redClicked()">Red</button>
-		<button id="green-button" class="black" onclick="greenClicked()">Green</button>
-		<button id="yellow-button" class="black" onclick="yellowClicked()">Yellow</button>
-	</div>
+function yellowClicked() {
+    goYellow();
+    clearInterval(intervalId);
 
-	<script>
-		var currentState = 'red';
+    intervalId = setInterval(function() {
+        redClicked();
+    }, 5000);
+}
 
-		function redClicked() {
-			if (currentState == 'yellow') {
-				goGreen();
-			} else {
-				goRed();
-			}
-		}
+redClicked();
 
-		function greenClicked() {
-			if (currentState == 'red') {
-				goGreen();
-			} else {
-				goYellow();
-			}
-		}
+function goRed() {
+    document.getElementById('red-button').className = 'red';
+    document.getElementById('green-button').className = 'black';
+    document.getElementById('yellow-button').className = 'black';
+    currentState = 'red';
+}
 
-		function yellowClicked() {
-			if (currentState == 'green') {
-				goYellow();
-			}
-		}
+function goGreen() {
+    document.getElementById('red-button').className = 'black';
+    document.getElementById('green-button').className = 'green';
+    document.getElementById('yellow-button').className = 'black';
+    currentState = 'green';
+}
 
-		function goRed() {
-			document.getElementById('red-button').className = 'red';
-			document.getElementById('green-button').className = 'black';
-			document.getElementById('yellow-button').className = 'black';
-			currentState = 'red';
-		}
-
-		function goGreen() {
-			document.getElementById('red-button').className = 'black';
-			document.getElementById('green-button').className = 'green';
-			document.getElementById('yellow-button').className = 'black';
-			currentState = 'green';
-		}
-
-		function goYellow() {
-			document.getElementById('red-button').className = 'black';
-			document.getElementById('green-button').className = 'black';
-			document.getElementById('yellow-button').className = 'yellow';
-			currentState = 'yellow';
-		}
-
-		setInterval(function() {
-			if (currentState == 'green') {
-				goYellow();
-			} else if (currentState == 'yellow') {
-				goRed();
-			} else if (currentState == 'red') {
-				goGreen();
-			}
-		}, 20000);
-	</script>
-</body>
-</html>
+function goYellow() {
+    document.getElementById('red-button').className = 'black';
+    document.getElementById('green-button').className = 'black';
+    document.getElementById('yellow-button').className = 'yellow';
+    currentState = 'yellow';
+}
